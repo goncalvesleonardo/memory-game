@@ -53,9 +53,8 @@ var classes = [
         li.appendChild(t);
         document.getElementsByClassName("deck")[0].appendChild(li);
         li.setAttribute('class', 'card');
-        li.setAttribute('id', 'card');
-        li.addEventListener("click", turnCard);
-        li.addEventListener('click', turnCard.bind( null, i));
+        //li.setAttribute('id', 'card');        
+        li.addEventListener('click', turnCard.bind(null, i));
 
         // create element i
         var ei = document.createElement('i');
@@ -95,4 +94,8 @@ function shuffle(array) {
 function turnCard(i){
     let cardIn = document.getElementsByClassName("card")[i];
     cardIn.setAttribute('class', 'card open show');
+
+    var cardIn2 = document.getElementsByClassName(classes[i]);
+
+    console.log(cardIn2);
 }
