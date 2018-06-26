@@ -47,13 +47,13 @@ var classes = [
     for (i = 0 ; i < cards.length ; i++){
 
         //create element li
-        var li = document.createElement('li');
-        var t = document.createTextNode("");
+        let li = document.createElement('li');
+        let t = document.createTextNode("");
         li.appendChild(t);
         document.getElementsByClassName("deck")[0].appendChild(li);
         li.setAttribute('class', 'card');
         li.setAttribute('id', 'card');
-        li.setAttribute('onclick','turnCard()');
+        li.addEventListener("click", turnCard);
 
         // create element i
         var ei = document.createElement('i');
@@ -93,10 +93,7 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-function turnCard(){
-    let cardin = document.getElementsByClassName("card")[0];
-    //let cardin2 = carcin.document.getElementsByClassName("card")[0]
-    cardin.setAttribute('class', 'card open show');
-
-    console.log(cardin)
-;}
+function turnCard(){    
+    let cardIn = document.getElementsByClassName("card");
+    cardIn.setAttribute('class', 'card open show');
+}
