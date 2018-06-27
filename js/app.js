@@ -62,6 +62,7 @@ var classes = [
         ei.append(et);
         document.getElementsByClassName("card")[i].appendChild(ei);
         ei.setAttribute('class', classes[i]);
+        ei.setAttribute('id', classes[i]);
     }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -91,11 +92,30 @@ function shuffle(array) {
      você chama a partir desta)
  */
 
+var cardsOpen = [];
+
 function turnCard(i){
     let cardIn = document.getElementsByClassName("card")[i];
     cardIn.setAttribute('class', 'card open show');
 
-    var cardIn2 = document.getElementsByClassName(classes[i]);
+    var cardClass = document.getElementById(classes[i]).className;
+    
+    if (cardsOpen.length == 2)
+    {
+        cardsOpen = [];
+    }
+    else if (cardsOpen.length < 2)
+    {
+        cardsOpen.push(cardClass);        
+    }
+    else if (cardsOpen.length !== 2)
+    {
+        cardsOpen = [];    
+    }
 
-    console.log(cardIn2);
+    console.log("quantidade de itens: " + cardsOpen.length);
+    console.log("nome da classe: " + cardsOpen);
 }
+
+//console.log(cardsOpen);
+
