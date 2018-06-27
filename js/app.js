@@ -39,6 +39,11 @@ var classes = [
     "fa fa-bicycle"
 ]
 
+var cards2 = [{
+    classe: "fa fa-paper-plane-o",
+
+}]
+
  // Display the cards on the page
  //   - shuffle the list of cards using the provided "shuffle" method below
     shuffle(cards);
@@ -66,18 +71,18 @@ var classes = [
     }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+        function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-    return array;
-}
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
+        }
 
 /*
  * Configure o ouvinte de eventos para um cartão. Se um cartão for clicado:
@@ -92,30 +97,76 @@ function shuffle(array) {
      você chama a partir desta)
  */
 
-var cardsOpen = [];
+    var card1 = {
+        classe: '',
+        index: ''
+    };
 
-function turnCard(i){
-    let cardIn = document.getElementsByClassName("card")[i];
-    cardIn.setAttribute('class', 'card open show');
+    var card2 = {
+        classe: '',
+        index: ''
+    };
 
-    var cardClass = document.getElementById(classes[i]).className;
-    
-    if (cardsOpen.length == 2)
-    {
-        cardsOpen = [];
+    var cardClass = '';
+
+    function resetCard() {
+        document.getElementsByClassName("card")[card1.index].setAttribute('class', 'card');
+        document.getElementsByClassName("card")[card2.index].setAttribute('class', 'card');
+
+        card1 = {
+            classe: '',
+            index: ''
+        };        
+        card2 = {
+            classe: '',
+            index: ''
+        };
+
+        cardClass = '';
     }
-    else if (cardsOpen.length < 2)
-    {
-        cardsOpen.push(cardClass);        
+
+    function turnCard(i){
+        var cardIn = document.getElementsByClassName("card")[i];
+        cardIn.setAttribute('class', 'card open show');
+
+        console.log(cardIn);
+
+        cardClass = document.getElementById(classes[i]).className;
+
+        if (card1.classe !== '')
+        {
+            card2.classe = cardClass;
+            card2.index = i;
+
+            console.log("card 2- if  - " + card2.index);
+
+
+            if (card1.classe === card2.classe)
+            {
+                card1 = {
+                    classe: '',
+                    index: ''
+                };                
+                card2 = {
+                    classe: '',
+                    index: ''
+                };
+                cardClass = '';
+            }
+            else
+            {                
+
+                console.log(i);
+                console.log(card1.index);
+
+                setTimeout(resetCard, 500);
+            }         
+        }
+        else
+        {
+            card1.classe = cardClass;
+            card1.index = i;
+
+            console.log("card 1- else - " + card1.index);
+        }          
     }
-    else if (cardsOpen.length !== 2)
-    {
-        cardsOpen = [];    
-    }
-
-    console.log("quantidade de itens: " + cardsOpen.length);
-    console.log("nome da classe: " + cardsOpen);
-}
-
-//console.log(cardsOpen);
-
