@@ -17,7 +17,6 @@ var cards = [
     "card15",
     "card16"
 ];
-
 var classes = [
     "fa fa-paper-plane-o",
     "fa fa-paper-plane-o",
@@ -36,20 +35,27 @@ var classes = [
     "fa fa-bicycle",
     "fa fa-bicycle"
 ]
+var card1 = {
+    classe: '',
+    index: ''
+};
+var card2 = {
+    classe: '',
+    index: ''
+};
+var cardClass = '';
+var countMatch = '';
+var countMoves = '';
+var countTime = '';
 
-var cards2 = [{
-    classe: "fa fa-paper-plane-o",
-
-}]
-
-    shuffle(cards);
-    shuffle(classes);
+shuffle(cards);
+shuffle(classes);
 
 for (i = 0 ; i < cards.length ; i++){
 
     //create element li
-    let li = document.createElement('li');
-    let t = document.createTextNode("");
+    var li = document.createElement('li');
+    var t = document.createTextNode("");
     li.appendChild(t);
     document.getElementsByClassName("deck")[0].appendChild(li);
     li.setAttribute('class', 'card');       
@@ -78,42 +84,6 @@ function shuffle(array) {
     return array;
 }
 
-var card1 = {
-    classe: '',
-    index: ''
-};
-
-var card2 = {
-    classe: '',
-    index: ''
-};
-
-var cardClass = '';
-
-var countMatch = '';
-
-var countMoves = '';
-
-function resetCard() {
-    document.getElementsByClassName("card")[card1.index].setAttribute('class', 'card');
-    document.getElementsByClassName("card")[card2.index].setAttribute('class', 'card');
-
-    card1 = {
-        classe: '',
-        index: ''
-    };        
-    card2 = {
-        classe: '',
-        index: ''
-    };
-
-    cardClass = '';
-
-    countMoves++;
-
-    document.getElementsByClassName("moves")[0].innerHTML = countMoves;
-}
-
 function turnCard(i){
     var cardIn = document.getElementsByClassName("card")[i];
     cardIn.setAttribute('class', 'card open show');
@@ -127,17 +97,7 @@ function turnCard(i){
 
         if (card1.classe === card2.classe)
         {
-            card1 = {
-                classe: '',
-                index: ''
-            };                
-            card2 = {
-                classe: '',
-                index: ''
-            };
-            cardClass = '';
-
-            countMatch++;
+            matchCard();
 
             countMoves++
 
@@ -145,12 +105,17 @@ function turnCard(i){
 
             if (countMatch == 8)
             {
-                alert("Fim de jogo");
+                stopTimer();
+                
             } 
         }
         else
         {                
             setTimeout(resetCard, 500);
+            
+            countMoves++;
+
+            document.getElementsByClassName("moves")[0].innerHTML = countMoves;
         }         
     }
     else
@@ -159,3 +124,60 @@ function turnCard(i){
         card1.index = i;
     }   
 }
+
+function resetCard() {
+    document.getElementsByClassName("card")[card1.index].setAttribute('class', 'card');
+    document.getElementsByClassName("card")[card2.index].setAttribute('class', 'card');
+
+    card1 = {
+        classe: '',
+        index: ''
+    };        
+    card2 = {
+        classe: '',
+        index: ''
+    };
+    cardClass = '';
+}
+
+function matchCard() {
+    document.getElementsByClassName("card")[card1.index].setAttribute('class', 'card match');
+    document.getElementsByClassName("card")[card2.index].setAttribute('class', 'card match');
+
+    card1 = {
+        classe: '',
+        index: ''
+    };                
+    card2 = {
+        classe: '',
+        index: ''
+    };
+    cardClass = '';
+    countMatch++;
+}
+
+function timer() {    
+	let s = 1;
+	let m = 0;
+	time = window.setInterval(function() {
+		if (s == 60) { m++; s = 0; }
+		if (m < 10) document.getElementById("min").innerHTML = "0" + m + ":"; else document.getElementById("min").innerHTML = m + ":";		
+		if (s < 10) document.getElementById("seg").innerHTML = "0" + s + ""; else document.getElementById("seg").innerHTML = s;
+        s++;
+        countTime = m + ':' + (s - 1);
+    },1000);
+
+}
+
+function stopTimer() {
+	window.clearInterval(time);
+    document.getElementsByClassName("score-panel")[0].style.display = "block";
+}
+
+function restartGame()
+{
+    window.location.reload()
+
+}
+
+window.onload=timer;
