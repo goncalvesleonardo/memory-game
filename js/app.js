@@ -104,8 +104,17 @@ function turnCard(i){
                 countMoves++
                 
                 document.getElementsByClassName("moves")[0].innerHTML = countMoves;
-                if (countMatch == 8) {
+                if (countMatch == 1) {
                     stopTimer();
+                    
+                    document.getElementsByClassName("modalEndGame")[0].style.display = "block";
+                    
+                    block = true;
+
+                    document.getElementsByClassName("timeEnd")[0].innerHTML = countTime;
+                    console.log(countTime);
+                    
+                    document.getElementsByClassName("movesEnd")[0].innerHTML = countMoves; 
 
                 }
             } else {
@@ -114,7 +123,7 @@ function turnCard(i){
 
                 countMoves++;
 
-                document.getElementsByClassName("moves")[0].innerHTML = countMoves;
+                document.getElementsByClassName("moves")[0].innerHTML = countMoves;                
             }
         }
 
