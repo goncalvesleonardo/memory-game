@@ -1,4 +1,3 @@
-
 var cards = [
     "card1",
     "card2",
@@ -47,6 +46,7 @@ var cardClass = '';
 var countMatch = '';
 var countMoves = '';
 var countTime = '';
+var block = false;
 
 shuffle(cards);
 shuffle(classes);
@@ -58,7 +58,7 @@ for (i = 0 ; i < cards.length ; i++){
     var t = document.createTextNode("");
     li.appendChild(t);
     document.getElementsByClassName("deck")[0].appendChild(li);
-    li.setAttribute('class', 'card');       
+    li.setAttribute('class', 'card');
     li.addEventListener('click', turnCard.bind(null, i));
 
     // create element i
@@ -85,44 +85,40 @@ function shuffle(array) {
 }
 
 function turnCard(i){
-    var cardIn = document.getElementsByClassName("card")[i];
-    cardIn.setAttribute('class', 'card open show');
+    if (block === false) {
+        var cardIn = document.getElementsByClassName("card")[i];
+        cardIn.setAttribute('class', 'card open show');
 
-    cardClass = document.getElementById(classes[i]).className;
-
-    if (card1.classe !== '')
-    {
-        card2.classe = cardClass;
-        card2.index = i;        
-
-        if (card1.classe === card2.classe)
-        {
-            matchCard();
-
-            countMoves++
-
-            document.getElementsByClassName("moves")[0].innerHTML = countMoves;
-
-            if (countMatch == 8)
-            {
-                stopTimer();
-                
-            } 
+        cardClass = document.getElementById(classes[i]).className;
+        if (card1.classe == '') {
+            card1.classe = cardClass;
+            card1.index = i;
+        } else if (card2.classe == ''){
+            card2.classe = cardClass;
+            card2.index = i;
         }
-        else
-        {                
-            setTimeout(resetCard, 500);
-            
-            countMoves++;
+        if (card1.classe !== '' && card2.classe !== '') {
+            if (card1.classe === card2.classe) {
+                matchCard();
 
-            document.getElementsByClassName("moves")[0].innerHTML = countMoves;
-        }         
+                countMoves++
+                
+                document.getElementsByClassName("moves")[0].innerHTML = countMoves;
+                if (countMatch == 8) {
+                    stopTimer();
+
+                }
+            } else {
+                block = true
+                setTimeout(resetCard, 500);
+
+                countMoves++;
+
+                document.getElementsByClassName("moves")[0].innerHTML = countMoves;
+            }
+        }
+
     }
-    else
-    {
-        card1.classe = cardClass;
-        card1.index = i;
-    }   
 }
 
 function resetCard() {
@@ -132,12 +128,13 @@ function resetCard() {
     card1 = {
         classe: '',
         index: ''
-    };        
+    };
     card2 = {
         classe: '',
         index: ''
     };
     cardClass = '';
+    block = false
 }
 
 function matchCard() {
@@ -157,12 +154,12 @@ function matchCard() {
 }
 
 function timer() {    
-	let s = 1;
-	let m = 0;
-	time = window.setInterval(function() {
-		if (s == 60) { m++; s = 0; }
-		if (m < 10) document.getElementById("min").innerHTML = "0" + m + ":"; else document.getElementById("min").innerHTML = m + ":";		
-		if (s < 10) document.getElementById("seg").innerHTML = "0" + s + ""; else document.getElementById("seg").innerHTML = s;
+    let s = 1;
+    let m = 0;
+    time = window.setInterval(function() {
+        if (s == 60) { m++; s = 0; }
+        if (m < 10) document.getElementById("min").innerHTML = "0" + m + ":"; else document.getElementById("min").innerHTML = m + ":";     
+        if (s < 10) document.getElementById("seg").innerHTML = "0" + s + ""; else document.getElementById("seg").innerHTML = s;
         s++;
         countTime = m + ':' + (s - 1);
     },1000);
@@ -170,14 +167,13 @@ function timer() {
 }
 
 function stopTimer() {
-	window.clearInterval(time);
+    window.clearInterval(time);
     document.getElementsByClassName("score-panel")[0].style.display = "block";
 }
 
 function restartGame()
 {
-    window.location.reload()
-
+    window.location.reload();
 }
 
 window.onload=timer;
