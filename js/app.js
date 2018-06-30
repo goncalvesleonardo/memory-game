@@ -104,7 +104,8 @@ function turnCard(i){
                 countMoves++
                 
                 document.getElementsByClassName("moves")[0].innerHTML = countMoves;
-                if (countMatch == 1) {
+                
+                if (countMatch == 8) {
                     stopTimer();
                     
                     document.getElementsByClassName("modalEndGame")[0].style.display = "block";
